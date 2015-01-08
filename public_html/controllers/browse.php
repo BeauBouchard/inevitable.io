@@ -3,12 +3,14 @@
   * Controller page for About page.
   */
 
-class About extends Controller {
+class Browse extends Controller {
 	function __construct() {
 		parent::__construct();
+		
+		
 	}
 	
 	function index() {
-		$this->view->render('about/index');
+		$this->view->render('browse/index');
 	}
 }

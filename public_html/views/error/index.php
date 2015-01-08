@@ -1,5 +1,1 @@
-<?php  require 'views/header.php' ?>
-	<body>
-		<h1><?php echo $this->error; ?></h1>
-	</body>
-</html>
+<h1>Error!</h1>

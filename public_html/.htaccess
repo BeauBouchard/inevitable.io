@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Skips if its a physical directory file or link
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+
+# QSA = Query String Append ,L symbolic Link
+
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]

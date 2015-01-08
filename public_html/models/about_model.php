@@ -1,6 +1,6 @@
 <?php
 
-	class About_Model {
+	class About_Model extends Model{
 		
 	function __construct() {
 		
