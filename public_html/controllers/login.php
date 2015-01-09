@@ -6,20 +6,39 @@
 class Login extends Controller {
 	function __construct() {
 		parent::__construct();
-		
 	}
 	
 	function index() {
-		
 		$this->view->render('login/index');
 	}
 	
-	function run() {
-		$login = $this->filterThis($_POST['login']);
-		$password = $this->hashbrown($this->filterThis($_POST['password'])); 
-		$this->model->attemptLogin($login,$password);
+	function fail() {
+		$this->view->render('login/index');
+		
 	}
 	
+	
+	//model call for login
+	function run() {
+			//echo "password:".$_POST['password']." <br/>";
+			//echo "hash:".$this->eliteEncrypt($this->filterThis($_POST['password']))." <br/>";
+			//echo "uname:".$_POST['login']." <br/>";
+			//echo "passwordf:".$this->filterThis($_POST['password'])." <br/>";
+		$login = $this->filterThis($_POST['login']);
+		$password = $this->eliteEncrypt($this->filterThis($_POST['password'])); 
+		$back = $this->model->attemptLogin($login,$password);
+		if($back) {
+			//echo "Success!";
+			header('location: '.URL.'dashboard/login/');
+		}else {
+		//				header('location: '.URL.'dashboard');
+		//		header('location: '.URL.'login');
+			//echo "Fail!";
+			header('location: '.URL.'login/fail/');
+		}
+	}
+	
+	//model call for registration 
 	function reg() {
 		
 	}

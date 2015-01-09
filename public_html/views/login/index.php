@@ -1,6 +1,6 @@
 <div class="login-page">
 <h2>Login Page</h2>
-      <form action="login/run" method="post" class="form-signin ">
+      <form action="<?php echo URL; ?>login/run" method="post" class="form-signin ">
         <h2 class="form-signin-heading">Please sign in</h2>
         <label for="inputEmail" class="sr-only">Username:</label>
         <input type="text" id="inputLogin" class="form-control  text-center" placeholder="Username" name="login" required autofocus>

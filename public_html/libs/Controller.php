@@ -36,30 +36,38 @@
     		return mysql_real_escape_string($string);
 		}
 		
+		
+		// Adds salt to password, then hashes, returns sha256 hash
+		public function eliteEncrypt($income) {
+			return $this->hashbrown($this->getsalt($income));
+		}
+		
 		public function hashbrown($income) {
 			//$options = [ 	'salt' => $this->getsalt(),
     		//				'cost' => 12 // the default cost is 10
 			//		];
 			//255
 			
-			array("cost" => 12, "salt" => $this->getSalt());
-			$output = password_hash( $income , PASSWORD_BCRYPT, $options); // 
+			//array("cost" => 12, "salt" => $this->getSalt());
+			//$output = password_hash( $income , PASSWORD_BCRYPT, $options); // 
+			
+			$hash = hash('sha256', $income);
+			return $hash;
 		}
 		
-		public function getSalt() {
-			
-			return "!(!!";
-			
+		public function getSalt($income) {
+			$salt = md5($income."%*4!#$;\.k~'(_@");
+			return $salt.$income;
 		}
 		
 		public function verifyPass($income) {
 			// Fetch hash+salt from database, place in $hashAndSalt variable
 			// and then to verify $password:
-			if (password_verify($password, $income)) {
-   				// Verified
-			}
-			
+			//if (password_verify($password, $income)) {
+   			//	// Verified
+			//}
 		}
+		
 		
 
 	}

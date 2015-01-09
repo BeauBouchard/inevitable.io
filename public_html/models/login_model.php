@@ -2,20 +2,30 @@
 	class Login_Model extends Model {
 		
 		public function __construct() {
-		
+			parent::__construct();
 		}
 		
 		public function attemptLogin($login,$password) {
 			
 			$login = mysql_real_escape_string($login);
   			$password = mysql_real_escape_string($password);
-
-			$this->db->prepared("SELECT id FROM users WHERE login= :login AND password= :password");
-			$this->execute(array (':login' => $login, ':password' => $password));
 			
-			$data = fetchAll();
+			$data = $this->db->prepare("SELECT user_id FROM user WHERE user_name=:login AND user_p=:password");
+			$data->execute(array (':login' => $login, ':password' => $password));
 			
-			print_r($data);
+			//$data = fetchAll();
+			
+			//print_r($data);
+			
+			if($data->rowCount() > 0){
+				//login
+				Session::init();
+				Session::set('log', true);
+				return true;
+			} else {
+				// failed
+				return false;
+			}
 		}
 		
 	}
