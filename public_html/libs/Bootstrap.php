@@ -26,9 +26,12 @@ class Bootstrap {
 			//file does not exist
 		}
 		
-		$ctrl = new $url[0];
 		
-		//error
+		$ctrl = new $url[0];
+		$ctrl->loadModel($url[0]);
+		
+		
+	
 		//there is a link to a function and a controller use it
 		if(isset($url[2])) {
 			if(method_exists($ctrl, $url[1])) {
@@ -45,5 +48,13 @@ class Bootstrap {
 			}
 		}
 		
+	}
+	
+		//error
+	function error() {
+		require 'controllers/error.php';
+		$ctrl = new Error();
+		$ctrl->index();
+		return false;
 	}
 }

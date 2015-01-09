@@ -10,9 +10,25 @@ class Login extends Controller {
 	}
 	
 	function index() {
-		require 'models/login_model.php';
-		$model = new Login_Model();
 		
 		$this->view->render('login/index');
 	}
+	
+	function run() {
+		$login = $this->filterThis($_POST['login']);
+		$password = $this->hashbrown($this->filterThis($_POST['password'])); 
+		$this->model->attemptLogin($login,$password);
+	}
+	
+	function reg() {
+		
+	}
+	
+	function register() {
+		$this->view->render('login/register');
+	}
+	
+
+	
+
 }

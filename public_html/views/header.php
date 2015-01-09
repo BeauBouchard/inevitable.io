@@ -12,6 +12,10 @@
         <link href='<?php echo URL; ?>assets/css/bootstrap-theme.css' rel='stylesheet' type='text/css'>
         <link href='<?php echo URL; ?>assets/css/bootstrap-responsive.css' rel='stylesheet' type='text/css'>
         <link href='<?php echo URL; ?>assets/css/font-awesome.min.css' rel='stylesheet' type='text/css' >
+        <link href='<?php echo URL; ?>assets/css/inevitable.io.css' rel='stylesheet' type='text/css' >
+        <?php /* Additional Styles ---- */ 
+        				
+        ?>
     </head>
     <body>
     <!-- Fixed navbar -->
@@ -23,8 +27,9 @@
         <div id="navbar" >
           <ul class="nav navbar-nav">
             <li class="active"><a href="<?php echo URL; ?>">Home</a></li>
-				<li><a href="browse">Browse</a></li>
-				<li><a href="about">About</a></li>
+				<li><a href="<?php echo URL; ?>browse/">Browse</a></li>
+				<li><a href="<?php echo URL; ?>about/">About</a></li>
+				<li><a href="<?php echo URL; ?>login/">Login</a></li>
             </ul>
             
         </div><!--/.nav-collapse -->
