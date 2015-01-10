@@ -13,27 +13,33 @@
         <link href='<?php echo URL; ?>assets/css/bootstrap-responsive.css' rel='stylesheet' type='text/css'>
         <link href='<?php echo URL; ?>assets/css/font-awesome.min.css' rel='stylesheet' type='text/css' >
         <link href='<?php echo URL; ?>assets/css/inevitable.io.css' rel='stylesheet' type='text/css' >
+      	<!-- Exturnal Style -->
+        <link href='http://fonts.googleapis.com/css?family=Fredericka+the+Great' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
         <?php /* Additional Styles ---- */ 
         	if(isset($this->css)){
         	    foreach($this->css as $css) {
-        			echo "<link href='".URL."' ?>assets/css/".$css."' rel='stylesheet' type='text/css' >";
+        			echo "        <link href='".URL."' ?>assets/css/".$css."' rel='stylesheet' type='text/css' >\n";
         		}
         	}			
         ?>
         <!-- Scripts -->
-        
+        <script type='text/javascript' src='<?php echo URL; ?>assets/js/jquery.js'></script>
+        <script type='text/javascript' src='<?php echo URL; ?>assets/js/header-anim.js'></script>
         <?php /* Additional Scripts ---- */ 
         	if(isset($this->js)){
         		foreach($this->js as $js) {
         			echo "<script type='text/javascript' src='".URL."assets/js/".$js."'></script>";
         		}
-        	}		
+        	}	
         ?>
-        
+
     </head>
     <body>
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav id="animate-area" class="navbar navbar-default navbar-nav" style="background-image: url('<?php 
+    		echo URL ."assets/media/". $this->bkimage ;
+    ?>')">
       <div class="container">
         <div class="navbar-header">
           <a class="navbar-brand" href="<?php echo URL; ?>">inevitable.io</a>
@@ -59,7 +65,7 @@
             </ul>
               
             
-        </div><!--/.nav-collapse -->
+        </div><!--/#navbar -->
       </div><!--/container -->
     </nav>
-		<div class="container">
+		<div class="container main-content">

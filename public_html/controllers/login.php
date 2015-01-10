@@ -6,6 +6,7 @@
 class Login extends Controller {
 	function __construct() {
 		parent::__construct();
+		$this->view->js = array("jquery.validate.js","formvalidate.js");
 	}
 	
 	function index() {
@@ -29,6 +30,8 @@ class Login extends Controller {
 		$back = $this->model->attemptLogin($login,$password);
 		if($back) {
 			//echo "Success!";
+			Session::init();
+			Session::set('user_id',$back['user_id']);
 			header('location: '.URL.'dashboard/login/');
 		}else {
 		//				header('location: '.URL.'dashboard');

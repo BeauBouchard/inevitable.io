@@ -1,21 +1,25 @@
 <div class="login-page">
-<h2>Register</h2>
-      <form action="login/reg" method="post" class="form-signin">
-        <h2 class="form-signin-heading">New Account</h2>
-        <label for="inputEmail" class="sr-only">Email address:</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-        <label for="inputUsername" class="sr-only">Username:</label>
-        <input type="text" id="inputLogin" class="form-control" placeholder="Username" name="login" required autofocus>
-        <label for="inputPassword" class="sr-only">Password:</label>
-        <input type="password" id="inputPassword1" class="form-control" placeholder="Password" name="password1" required>
-        <label for="inputPassword" class="sr-only">Confirm Password:</label>
-        <input type="password" id="inputPassword2" class="form-control" placeholder="Password ... again"  name="password2" required>
-        
+<h2>Register New Account</h2>
+      <form id="reg-form" action="login/reg" method="post" class="form-horizontal">
+        <div class="control-group">
+        	<label class="control-label" for="email" >Email address:</label>
+       		<div class="controls"><input type="email" id="email" class="form-control" placeholder="Email address" name="email" required autofocus></div>
+        </div>
+        <div class="control-group">
+        	<label class="control-label" for="login" >Username:</label>
+        	<div class="controls"><input type="text" id="login" class="form-control" placeholder="Username" name="login" required autofocus></div>
+        </div>
+        <div class="control-group">
+        	<label class="control-label" for="password1" class="sr-only">Password:</label>
+        	<div class="controls"><input type="password" id="password1" class="form-control" placeholder="Password" name="password1" required></div>
+        	<label class="control-label" for="inputPassword">Confirm Password:</label>
+        	<div class="controls"><input type="password" id="password2" class="form-control" placeholder="Password ... again"  name="password2" required></div>
+        </div>
         <div class="checkbox">
           <label>
             <input type="checkbox" value="remember-me">I would like email notifications
           </label>
         </div>
-        <button class="btn btn-lg btn-primary " type="submit">Register</button>
+		<div class="row"><div class="span12"> <button class="btn btn-lg btn-primary " type="submit">Register</button></div> </div>
       </form>
 </div>

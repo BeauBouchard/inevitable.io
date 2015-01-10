@@ -13,6 +13,7 @@
 			$data = $this->db->prepare("SELECT user_id FROM user WHERE user_name=:login AND user_p=:password");
 			$data->execute(array (':login' => $login, ':password' => $password));
 			
+			
 			//$data = fetchAll();
 			
 			//print_r($data);
@@ -21,7 +22,9 @@
 				//login
 				Session::init();
 				Session::set('log', true);
-				return true;
+				$userid = $data->fetch(PDO::FETCH_ASSOC);
+				
+				return $userid;
 			} else {
 				// failed
 				return false;

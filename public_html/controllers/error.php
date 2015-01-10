@@ -4,9 +4,28 @@
   */
 
 class Error extends Controller {
-	function __construct() {
+	function __construct($args = false) {
 		parent::__construct();
-		
+		if($args == 404){
+			$this->view->errormsg = "404 - The page is not here";
+		} else {
+			$list = Array('It was inevitable',
+				  'The horror!',
+				  'It is terrifying.',
+				  'Im a little angry.',
+				  'Death is all around us. This cannot horrify me.',
+				  'Long live the cause!',
+				  'It was for the best.',
+				  'That is sad but not unexpected.',
+	              'Its dark down here.',
+	              'At least it doesnt rain down here.',
+	              'This must be stopped by any means at our disposal.',
+	              'It is inaccessible from here.',
+	              'Life is, in a word, dusk.',
+				  'Theres fighting!');
+	
+			$this->view->errormsg = $list[array_rand($list)];
+		}
 		$this->view->render('error/index');
 	}
 	
@@ -18,11 +37,6 @@ class Error extends Controller {
 	public function error($args = false) {
 		require 'models/error_model.php';
 		$model = new Error_Model();
-		
-		if($args == "404"){
-			echo "404!!!";
-		} else {
-			echo $args;
-		}
+
 	}
 }

@@ -20,7 +20,7 @@ class Bootstrap {
 			require $file;
 		} else {
 			require 'controllers/error.php';
-			$ctrl = new Error();
+			$ctrl = new Error(404);
 			return false;
 			//echo 'The File: '.$file.' does not exist!';
 			//file does not exist

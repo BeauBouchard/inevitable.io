@@ -1,5 +1,10 @@
 <?php
-	
+	/*
+	 * 
+	 * functionality: logout, change password, change email, view uploads
+	 * 
+	 */
+
 class Dashboard extends Controller {
 	function __construct() {
 		parent::__construct();
@@ -12,7 +17,7 @@ class Dashboard extends Controller {
 			header('location: '.URL.'login');
 		}
 		
-		$this->view->js = array();
+		$this->view->js = array("jquery.js");
 	}
 	
 	function index(){
@@ -21,13 +26,21 @@ class Dashboard extends Controller {
 	
 	// on first login, load session variables for user data
 	function login(){
-		//$data = $this->model->get
+		Session::init();
+		$id = Session::get('user_id');
+		$data = $this->model->getUsername($id);
+		Session::set('user_name', $data['user_name']);
 		$username = "time";
-		Session::set('user_name','');
+		
+		//Session::set('user_name','');
+		$this->view->render('dashboard/index');
 	}
 	
 	function logout(){
 		Session::destroy();
 		header('location: '.URL.'login');
 	}
+	
+	
+
 }
