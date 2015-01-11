@@ -1,5 +1,13 @@
 <div class="login-page">
 <h2>Login Page</h2>
+<?php 
+
+  Session::init();
+  	$log = Session::get('loginattempt');
+  if(isset($log) && $log != 0){
+  		echo "<p>Login Attepts:".$log."</p>";
+  } 
+ ?>
       <form id="login-form" action="<?php echo URL; ?>login/run" method="post" class="form-signin ">
         <h2 class="form-signin-heading">Please sign in</h2>
         <label for="inputEmail" class="sr-only">Username:</label>

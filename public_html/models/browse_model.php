@@ -10,32 +10,36 @@
 	class Browse_Model extends Model{
 		private $blueprintID;
 		function __construct() {
+			parent::__construct();
 			//collects data from database to display incase of error
 		}
-		public function xhrInsert() 
-	{
-		$text = $_POST['text'];
 		
-		$sth = $this->db->prepare('INSERT INTO data (text) VALUES (:text)');
-		$sth->execute(array(':text' => $text));
+		function listPrints($start,$stop) {
+			$data = $this->db->prepare("SELECT 
+						blueprint.blueprint_id as 'bid',
+						user.user_id		   as 'uid',
+						user.user_name		   as 'uname',
+						blueprint_title		   as 'title',
+						blueprint_desc   	   as 'desc',
+						file_location  		   as 'location'
+					FROM `blueprint`
+					INNER JOIN `blueprint_files`
+						ON `blueprint`.blueprint_id=`blueprint_files`.blueprint_id 
+					JOIN `user` 
+   						ON `user`.user_id  = `blueprint`.user_id
+					WHERE file_location LIKE '%.png'  LIMIT :start , :stop");
+			$data->execute(array (':start' => $start,':stop' => $stop));
+					/*	Join statement for returning all */
+			
+			return $data->fetch(PDO::FETCH_ASSOC); 
+			
+		}
 		
-		$data = array('text' => $text, 'id' => $this->db->lastInsertId());
-		echo json_encode($data);
-	}
-	
-	public function xhrGetListings()
-	{
-		$sth = $this->db->prepare('SELECT * FROM data');
-		$sth->setFetchMode(PDO::FETCH_ASSOC);
-		$sth->execute();
-		$data = $sth->fetchAll();
-		echo json_encode($data);
-	}
-	
-	public function xhrDeleteListing()
-	{
-		$id = $_POST['id'];
-		$sth = $this->db->prepare('DELETE FROM data WHERE id = "'.$id.'"');
-		$sth->execute();
-	}
+		function getPrintsFrom($uname){
+			$uname = mysql_real_escape_string($uname);
+			$data = $this->db->prepare("SELECT user_id FROM user WHERE user_name=:uname LIMIT 0 , 5");
+			$data->execute(array (':uname' => $uname));
+		}
+
+
 	}

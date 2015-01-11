@@ -1,7 +1,11 @@
+<?php             	
+				Session::init();
+				$logcheck = Session::get('log');
+				?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>title</title>
+        <title><?php  echo $this->title ;  ?></title>
 
         <!-- Link -->
         <link rel='shortcut icon' href='<?php echo URL; ?>assets/ico/favicon.ico' type='image/x-icon'>
@@ -47,13 +51,13 @@
         <div id="navbar" >
           <ul class="nav navbar-nav">
             	<li class="active"><a href="<?php echo URL; ?>">Home</a></li>
+<?php if(isset($logcheck) && $logcheck == true){ echo "            	<li><a href='". URL."upload/'>Upload</a></li>"; } ?>
 				<li><a href="<?php echo URL; ?>browse/">Browse</a></li>
 				<li><a href="<?php echo URL; ?>about/">About</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right pull-right">
             <?php 
-            	Session::init();
-				$logcheck = Session::get('log');
+
             /* If the user is logged in, they see a logout button, dashboard link. (dashboard link should be user name / gravatar)*/
             if(isset($logcheck) && $logcheck == true){
             	echo "              <li><a href='" . URL . "dashboard/'>".Session::get('user_name')."</a></li>";

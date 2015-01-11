@@ -19,8 +19,5 @@
 		
 		public function userUploads($uid) {
 			
-		}
-		
-
-		
+		}	
 	}
