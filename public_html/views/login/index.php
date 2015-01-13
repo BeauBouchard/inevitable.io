@@ -1,12 +1,13 @@
 <div class="login-page">
 <h2>Login Page</h2>
 <?php 
-
+//$skip = (isset($_GET['skip'])):$_GET['skip']:0;
   Session::init();
   	$log = Session::get('loginattempt');
   if(isset($log) && $log != 0){
   		echo "<p>Login Attepts:".$log."</p>";
   } 
+
  ?>
       <form id="login-form" action="<?php echo URL; ?>login/run" method="post" class="form-signin ">
         <h2 class="form-signin-heading">Please sign in</h2>

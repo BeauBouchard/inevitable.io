@@ -3,7 +3,7 @@
 	class Upload_Model extends Model{
 		
 		function __construct() {
-		
+			parent::__construct();
 		}
 		
 		function createBlueprint($title,$desc,$userID,$filelocation){

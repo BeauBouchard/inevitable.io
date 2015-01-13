@@ -5,8 +5,9 @@
 
 class Login extends Controller {
 	function __construct() {
-		parent::__construct();
 		$this->view->js = array("jquery.validate.js","formvalidate.js");
+		parent::__construct();
+		
 	}
 	
 	function index() {

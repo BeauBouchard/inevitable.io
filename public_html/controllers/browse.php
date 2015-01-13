@@ -11,7 +11,8 @@ class Browse extends Controller {
 	}
 	
 	function index() {
-		$this->printArray = $this->getPrints(0,3);
+		$this->view->printList = $this->model->listPrints(0,3);
+		//$this->getPrints(0,3);
 		$this->view->render('browse/index',false,'Browse Blueprints');
 	}
 	
@@ -24,7 +25,26 @@ class Browse extends Controller {
 	 * 	file_location  		   as 'location'
 	 */
 	function getPrints($start,$stop) {
-		return  $this->model->listPrints($start,$stop);
+		$start = $this->filterThis($start);
+		$stop = $this->filterThis($start);
+		if(is_numeric($start) && is_numeric($stop) )
+		{
+			return  $this->model->listPrints($start,$stop);
+		} else {
+			
+		}
+	}
+	
+	function getPrintsJson($start,$stop) {
+		$start = $this->filterThis($start);
+		$stop = $this->filterThis($start);
+		if(is_numeric($start) && is_numeric($stop) )
+		{
+			$data = json_encode($this->getPrints($start,$stop));
+			return $data;
+		}
+
+		
 	}
 	
 	function generateImageBox() {

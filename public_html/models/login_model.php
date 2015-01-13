@@ -9,7 +9,7 @@
 			$login = mysql_real_escape_string($login);
   			$password = mysql_real_escape_string($password);
 			
-			$data = $this->db->prepare("SELECT user_id FROM user WHERE user_name=:login AND user_p=:password LIMIT 0 , 1");
+			$data = $this->db->prepare("SELECT user_id FROM user WHERE user_name=:login AND user_p=:password");
 			$data->execute(array (':login' => $login, ':password' => $password));
 			
 			if($data->rowCount() > 0){

@@ -23,17 +23,29 @@
         <?php /* Additional Styles ---- */ 
         	if(isset($this->css)){
         	    foreach($this->css as $css) {
-        			echo "        <link href='".URL."' ?>assets/css/".$css."' rel='stylesheet' type='text/css' >\n";
+        	    	echo "<!-- Additional Styles -->\n";
+        			echo "        <link href='".URL."assets/css/".$css."' rel='stylesheet' type='text/css' >\n";
         		}
-        	}			
+        	}	
+
+        	if(isset($this->upload)){
+				echo "<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->\n";
+				echo "        <link href='".URL."assets/css/jquery.fileupload.css' rel='stylesheet' type='text/css'>\n";
+				echo "        <link href='".URL."assets/css/jquery.fileupload-ui.css'rel='stylesheet' type='text/css'>\n";
+				echo "<!-- CSS adjustments for browsers with JavaScript disabled -->\n";
+				echo "        <noscript><link href='".URL."assets/css/jquery.fileupload-noscript.css' rel='stylesheet' type='text/css'></noscript>\n";
+				echo "        <noscript><link href='".URL."assets/css/jquery.fileupload-ui-noscript.css' rel='stylesheet' type='text/css'></noscript>\n";
+				
+        	}
         ?>
         <!-- Scripts -->
         <script type='text/javascript' src='<?php echo URL; ?>assets/js/jquery.js'></script>
         <script type='text/javascript' src='<?php echo URL; ?>assets/js/header-anim.js'></script>
         <?php /* Additional Scripts ---- */ 
         	if(isset($this->js)){
+        		echo "<!-- Additional Scripts -->\n";
         		foreach($this->js as $js) {
-        			echo "<script type='text/javascript' src='".URL."assets/js/".$js."'></script>";
+        			echo "        <script type='text/javascript' src='".URL."assets/js/".$js."'></script>\n";
         		}
         	}	
         ?>
