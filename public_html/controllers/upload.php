@@ -10,7 +10,7 @@ class Upload extends Controller {
 	
 	function index() {
 		
-		$this->view->js = array("jquery.ui.widget.js",
+		/*$this->view->js = array("jquery.ui.widget.js",
 		"jquery.fileupload-audio.js",
 		"jquery.fileupload-image.js",
 		"jquery.fileupload-process.js",
@@ -19,9 +19,9 @@ class Upload extends Controller {
 		"jquery.fileupload-video.js",
 		"jquery.fileupload.js",
 		"jquery.iframe-transport.js",
-		"jquery.fileupload-run.js");
+		"jquery.fileupload-run.js");*/
 		
-		$this->view->upload = true;
+		//$this->view->upload = true;
 		$this->view->render('upload/index');
 	}
 }

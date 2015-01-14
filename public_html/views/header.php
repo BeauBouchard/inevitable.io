@@ -1,8 +1,7 @@
 <?php             	
 				Session::init();
 				$logcheck = Session::get('log');
-				?>
-<!DOCTYPE html>
+				?><!DOCTYPE html>
 <html>
     <head>
         <title><?php  echo $this->title ;  ?></title>
@@ -27,16 +26,6 @@
         			echo "        <link href='".URL."assets/css/".$css."' rel='stylesheet' type='text/css' >\n";
         		}
         	}	
-
-        	if(isset($this->upload)){
-				echo "<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->\n";
-				echo "        <link href='".URL."assets/css/jquery.fileupload.css' rel='stylesheet' type='text/css'>\n";
-				echo "        <link href='".URL."assets/css/jquery.fileupload-ui.css'rel='stylesheet' type='text/css'>\n";
-				echo "<!-- CSS adjustments for browsers with JavaScript disabled -->\n";
-				echo "        <noscript><link href='".URL."assets/css/jquery.fileupload-noscript.css' rel='stylesheet' type='text/css'></noscript>\n";
-				echo "        <noscript><link href='".URL."assets/css/jquery.fileupload-ui-noscript.css' rel='stylesheet' type='text/css'></noscript>\n";
-				
-        	}
         ?>
         <!-- Scripts -->
         <script type='text/javascript' src='<?php echo URL; ?>assets/js/jquery.js'></script>

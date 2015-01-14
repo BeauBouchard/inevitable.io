@@ -1,5 +1,4 @@
 <h2>Upload</h2>
-
  <!-- The file upload form used as target for the file upload widget -->
     <form id="fileupload" action="<?php   echo URL; ?>uploadhandler/" method="POST" enctype="multipart/form-data">
         <!-- Redirect browsers with JavaScript disabled to the origin page -->
