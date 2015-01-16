@@ -9,7 +9,12 @@ class Upload extends Controller {
 	}
 	
 	function index() {
-		
+	   if ( 0 < $_FILES['file']['error'] ) {
+        echo 'Error: ' . $_FILES['file']['error'] . '<br>';
+    }
+    else {
+        move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $_FILES['file']['name']);
+    }
 		/*$this->view->js = array("jquery.ui.widget.js",
 		"jquery.fileupload-audio.js",
 		"jquery.fileupload-image.js",
