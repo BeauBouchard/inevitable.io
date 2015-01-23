@@ -1,0 +1,78 @@
+# creds and libs     #
+######################
+public_html/downloads/*
+public_html/uploads/*
+public_html/config/*
+
+# OS generated files #
+######################
+*.DS_Store
+*.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+[Tt]humbs.db
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# Stuff for PHP devs #
+######################
+# CakePHP 3
+/vendor/*
+/config/app.php
+/tmp/*
+/logs/*
+
+# CakePHP 2
+/app/tmp/*
+/app/Config/core.php
+/app/Config/database.php
+/vendors/*
+
+# Stuff for C devs   #
+######################
+#Visual Studio files
+*.[Oo]bj
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.sdf
+ipch/
+obj/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+Ankh.NoLoad
+
+#Tooling
+_ReSharper*/
+*.resharper
+[Tt]est[Rr]esult*
+
+#Project files
+[Bb]uild/
+
+#Subversion files
+.svn
+
+# Office Temp Files
+~$*
