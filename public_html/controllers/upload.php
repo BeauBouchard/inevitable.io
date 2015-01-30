@@ -13,20 +13,19 @@ class Upload extends Controller {
 		{
 			if ( 0 < $_FILES['file']['error'] ) {
 	        	//echo 'Error: ' . $_FILES['file']['error'] . '<br>';
+	        	$status = 'Bad request!';
 	    	}
 	    	else {
 	       		 //move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $_FILES['file']['name']);
+	       		 $this->upload();
 	    	}
 		}
 		else {
-	  		$status = 'Bad request!';
+	  		
 	  		$this->view->render('upload/index');
 		}
 	}
 	
-	
-function index() {
-	}
 		/*
 		 * So, this should be a transaction instead of what I am currently doing.
 		 * 1.) upload file, 
@@ -38,49 +37,64 @@ function index() {
 		 * 5	move file to /uploads/[UserID]/[BlueprintID][FileID].png
 		 */
 	
-	/*
-	 * incUpload
-	 * Expects there to be files uploaded to action='inevitable.io/upload/'
-	 * 
-	 */
-	function incUpload(){
-					//upload the file
-					//confirm file is uploaded
-					//make thumbnail if needed
-					//if png, make a CSV, if CSV make png
-					//commit
-					//
-		if(isset($_FILES["FileInput"]) && $_FILES["FileInput"]["error"]== UPLOAD_ERR_OK)
-		{
+		/*
+		 * incUpload
+		 * Expects there to be files uploaded to action='inevitable.io/upload/'
+		 * upload the file
+		 * confirm file is uploaded
+		 * make thumbnail if needed
+		 * if png, make a CSV, if CSV make png
+		 * commit
+		 * Note :  "memory_limit" or "upload_max_filesize" or "post_max_size" can be set too low in "php.ini".  
+		 */
+	function upload() {
+		
+
+		// ###### SETTINGS ######
+		$MaxFileSize 			= 5242880; 					// 5.2Mb
+	    $UploadDirectory    	= '/file_upload/uploads/'; 	// ends with / (slash)
+	    $DownloadDirectory		= '/downloads/';
+	    // ###### SETTINGS ######
+	    
+	    
+	    header('Content-Type: text/plain; charset=utf-8');
+	    try {
+	    		
+			if (!isset($_FILES['fileupload']['error']) || is_array($_FILES['"fileupload"']['error'])) {
+		        throw new RuntimeException('Invalid parameters.');
+		    }
+		
+		    // Check $_FILES['upfile']['error'] value.
+		    switch ($_FILES['fileupload']['error']) {
+		        case UPLOAD_ERR_OK:
+		            break;
+		        case UPLOAD_ERR_NO_FILE:
+		            throw new RuntimeException('No file sent.');
+		        case UPLOAD_ERR_INI_SIZE:
+		        case UPLOAD_ERR_FORM_SIZE:
+		            throw new RuntimeException('Exceeded filesize limit.');
+		        default:
+		            throw new RuntimeException('Unknown errors.');
+		    }
+	    
+			// check filesize
+		    if ($_FILES['fileupload']['size'] > $MaxFileSize) {
+		        throw new RuntimeException('File size is too big!');
+		    }
+		    //http://php.net/manual/en/function.exif-imagetype.php
+		    $allowedTypes = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
+			$detectedType = exif_imagetype($_FILES['fileupload']['tmp_name']);
+			$error = !in_array($detectedType, $allowedTypes);
 			
-			    ############ Edit settings ##############
-			    $UploadDirectory    = '/home/website/file_upload/uploads/'; //specify upload directory ends with / (slash)
-			    ##########################################
-			    
-			    /*
-			    Note : You will run into errors or blank page if "memory_limit" or "upload_max_filesize" is set to low in "php.ini". 
-			    Open "php.ini" file, and search for "memory_limit" or "upload_max_filesize" limit 
-			    and set them adequately, also check "post_max_size".
-			    */
-			    
-			    //check if this is an ajax request
-			    if (!isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
-			        die();
-			    }
-			    
-			    
-			    //Is file size is less than allowed size.
-			    if ($_FILES["FileInput"]["size"] > 5242880) {
-			        die("File size is too big!");
-			    }
-			    
-			    //allowed file type Server side check
-			    switch(strtolower($_FILES['FileInput']['type']))
-			        {
-			            //allowed file types
-			            case 'image/png': 
-			            case 'image/gif': 
-			           	// case 'image/jpeg': 
+			/*
+		    $finfo = new finfo(FILEINFO_MIME_TYPE);
+		    if (false === $ext = array_search(
+		        $finfo->file($_FILES['fileupload']['tmp_name']),
+		        array(
+		            'jpg' => 'image/jpeg',
+		            'png' => 'image/png',
+		            'gif' => 'image/gif',
+		        		// case 'image/jpeg': 
 			            //case 'image/pjpeg':
 			            //case 'text/plain':
 			            //case 'text/html': //html file
@@ -89,64 +103,74 @@ function index() {
 			            //case 'application/msword':
 			            //case 'application/vnd.ms-excel':
 			            //case 'video/mp4':
-			                break;
-			            default:
-			                die('Unsupported File!'); //output error
-			    }
+		        ),
+		        true
+		    )) {
+		        throw new RuntimeException('Invalid file format.');
+		    }*/
 			    
-			    $File_Name          = strtolower($_FILES['FileInput']['name']);
-			    $File_Ext           = substr($File_Name, strrpos($File_Name, '.')); //get file extention
-			    $Random_Number      = rand(0, 9999999999); //Random number to be added to name.
-			    $NewFileName        = $Random_Number.$File_Ext; //new file name
-			    
-			    if(move_uploaded_file($_FILES['FileInput']['tmp_name'], $UploadDirectory.$NewFileName ))
-			       {
-			        // do other stuff 
-			               die('Success! File Uploaded.');
-			    }else{
-			        die('error uploading File!');
-			    }
-			    
-			}
-			else
-			{
-			    die('Something wrong with upload! Is "upload_max_filesize" set correctly?');
-			}
+		    $File_Name          = filterThis(strtolower($_FILES['fileupload']['name']));
+		    $File_Ext           = substr($File_Name, strrpos($File_Name, '.')); //get file extention
+		    $Random_Number      = rand(0, 9999999999); //Random number to be added to name.
+		    $UploadDest			= $UploadDirectory.$Random_Number.$File_Ext;
+		    if (file_exists($UploadDirectory. $_FILES['fileupload']['name'])) {
+      			echo   " already exists. ";
+     		 }
+    		else {
+		    	if(!move_uploaded_file($_FILES['fileupload']['tmp_name'],  $UploadDest)) {
+        			throw new RuntimeException('Failed to move uploaded file.');
+    			}
+    			
+    			
+    			Session::init();
+    			$userID = Session::get('user_id'); 
+				
+    			//inserts the title and desc into db
+    			$title = $this->filterThis($title);
+    			$desc = $this->filterThis($desc);
+    			$userID = $this->filterThis($userID);
+    			$blueprintID = $this->model->insertBlue($title,$desc,$userID); 
+    			// returns the newly created blueprint ID
+    			//[BlueprintID][FileID].png
+    			// holy shit
+    			
+    			$grandfilename = $DownloadDirectory.$this->hashbrown($userID.$blueprintID).".".$File_Ext;
+    			// writes file location into the database
+    			$this->model->insertFile($blueID,$grandfilename);
+      		}
+		} catch (RuntimeException $e) {  echo $e->getMessage();}
 	}
-	
 
 	
+	public function renameFile(){
+		
+	}
+
+
 	public static function fixGlobalFilesArray($files) {
-        $ret = array();
-
-        if(isset($files['tmp_name']))
-        {
-            if (is_array($files['tmp_name']))
-            {
-                foreach($files['name'] as $idx => $name)
-                {
-                    $ret[$idx] = array(
-                        'name' => $name,
-                        'tmp_name' => $files['tmp_name'][$idx],
-                        'size' => $files['size'][$idx],
-                        'type' => $files['type'][$idx],
-                        'error' => $files['error'][$idx]
-                    );
-                }
-            }
-            else
-            {
-                $ret = $files;
-            }
-        }
-        else
-        {
-            foreach ($files as $key => $value)
-            {
-                $ret[$key] = self::fixGlobalFilesArray($value);
-            }
-        }
-
-        return $ret;
-    }
-}
+	        $ret = array();
+	
+	        if(isset($files['tmp_name'])){
+	            if (is_array($files['tmp_name'])){
+	                foreach($files['name'] as $idx => $name){
+	                    $ret[$idx] = array(
+	                        'name' => $name,
+	                        'tmp_name' => $files['tmp_name'][$idx],
+	                        'size' => $files['size'][$idx],
+	                        'type' => $files['type'][$idx],
+	                        'error' => $files['error'][$idx]
+	                    );
+	                }
+	            }
+	            else {
+	                $ret = $files;
+	            }
+	        }
+	        else {
+	            foreach ($files as $key => $value) {
+	                $ret[$key] = self::fixGlobalFilesArray($value);
+	            }
+	        }
+	        return $ret;
+	    }
+	}

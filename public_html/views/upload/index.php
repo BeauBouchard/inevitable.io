@@ -1,6 +1,6 @@
 <h2>Upload</h2>
  <!-- The file upload form used as target for the file upload widget -->
-    <form id="fileupload" action="<?php   echo URL; ?>uploadhandler/" method="POST" enctype="multipart/form-data">
+    <form id="fileupload" action="<?php   echo URL; ?>upload/" method="POST" enctype="multipart/form-data">
         <!-- Redirect browsers with JavaScript disabled to the origin page -->
         <noscript><input type="hidden" name="redirect" value="<?php   echo URL; ?>/noscript/"></noscript>
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -10,7 +10,7 @@
                 <span class="btn btn-success fileinput-button">
                     <i class="icon fa fa-plus fa-lg"></i>
                     <span>Add files...</span>
-                    <input type="file" name="files[]" multiple>
+                    <input type="file" name="fileupload" multiple>
                 </span>
                 <button type="submit" class="btn btn-primary start">
                     <i class="icon fa fa-cloud-upload fa-lg"></i>

@@ -54,12 +54,12 @@
 			//array("cost" => 12, "salt" => $this->getSalt());
 			//$output = password_hash( $income , PASSWORD_BCRYPT, $options); // 
 			
-			$hash = hash('sha256', $income);
+			$hash = hash('sha256', $income.$this->getSalt($income));
 			return $hash;
 		}
 		
 		public function getSalt($income) {
-			$salt = md5($income."%*4!#$;\.k~'(_@");
+			$salt = md5($income.SALT);
 			return $salt.$income;
 		}
 		
