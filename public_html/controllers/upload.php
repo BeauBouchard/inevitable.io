@@ -9,14 +9,11 @@ class Upload extends Controller {
 	}
 	
 	function index() {
-		if ( $_SERVER['REQUEST_METHOD'] === 'POST' )
-		{
-			if ( 0 < $_FILES['file']['error'] ) {
-	        	//echo 'Error: ' . $_FILES['file']['error'] . '<br>';
+		if ( $_SERVER['REQUEST_METHOD'] === 'POST' ){
+			if ( 0 < $_FILES['fileupload']['error'] ) {
 	        	$status = 'Bad request!';
 	    	}
 	    	else {
-	       		 //move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $_FILES['file']['name']);
 	       		 $this->upload();
 	    	}
 		}
@@ -52,7 +49,7 @@ class Upload extends Controller {
 
 		// ###### SETTINGS ######
 		$MaxFileSize 			= 5242880; 					// 5.2Mb
-	    $UploadDirectory    	= '/file_upload/uploads/'; 	// ends with / (slash)
+	    $UploadDirectory    	= 'file_upload/uploads/'; 	// ends with / (slash)
 	    $DownloadDirectory		= '/downloads/';
 	    // ###### SETTINGS ######
 	    
@@ -60,11 +57,11 @@ class Upload extends Controller {
 	    header('Content-Type: text/plain; charset=utf-8');
 	    try {
 	    		
-			if (!isset($_FILES['fileupload']['error']) || is_array($_FILES['"fileupload"']['error'])) {
+			if (!isset($_FILES['fileupload']['error']) || is_array($_FILES['fileupload']['error'])) {
 		        throw new RuntimeException('Invalid parameters.');
 		    }
 		
-		    // Check $_FILES['upfile']['error'] value.
+		    // Check $_FILES['fileupload']['error'] value.
 		    switch ($_FILES['fileupload']['error']) {
 		        case UPLOAD_ERR_OK:
 		            break;
@@ -109,10 +106,10 @@ class Upload extends Controller {
 		        throw new RuntimeException('Invalid file format.');
 		    }*/
 			    
-		    $File_Name          = filterThis(strtolower($_FILES['fileupload']['name']));
+		    $File_Name          = $this->filterThis(strtolower($_FILES['fileupload']['name']));
 		    $File_Ext           = substr($File_Name, strrpos($File_Name, '.')); //get file extention
 		    $Random_Number      = rand(0, 9999999999); //Random number to be added to name.
-		    $UploadDest			= $UploadDirectory.$Random_Number.$File_Ext;
+		    $UploadDest			= AWR .$UploadDirectory.$Random_Number.$File_Ext;
 		    if (file_exists($UploadDirectory. $_FILES['fileupload']['name'])) {
       			echo   " already exists. ";
      		 }
@@ -126,9 +123,10 @@ class Upload extends Controller {
     			$userID = Session::get('user_id'); 
 				
     			//inserts the title and desc into db
-    			$title = $this->filterThis($title);
-    			$desc = $this->filterThis($desc);
+    			$title = $this->filterThis($_POST['title']);
+    			$desc = $this->filterThis($_POST['desc']);
     			$userID = $this->filterThis($userID);
+    			
     			$blueprintID = $this->model->insertBlue($title,$desc,$userID); 
     			// returns the newly created blueprint ID
     			//[BlueprintID][FileID].png
@@ -136,7 +134,12 @@ class Upload extends Controller {
     			
     			$grandfilename = $DownloadDirectory.$this->hashbrown($userID.$blueprintID).".".$File_Ext;
     			// writes file location into the database
-    			$this->model->insertFile($blueID,$grandfilename);
+    			$returnedID = $this->model->insertFile($blueprintID,$grandfilename);
+    			
+    			if(!isset($returnedID) && $returnedID >0){
+    					$this->view->render('browse/index');
+    			}
+    			
       		}
 		} catch (RuntimeException $e) {  echo $e->getMessage();}
 	}
