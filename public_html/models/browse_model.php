@@ -13,12 +13,31 @@
 			parent::__construct();
 			//collects data from database to display incase of error
 		}
-		
+					/*$data = $this->db->prepare("SELECT 
+						blueprint.blueprint_id  as 'bid', 	
+						user.user_id 			as 'uid',
+						user.user_name 			as 'uname',
+			 			blueprint_title 		as 'title',
+						blueprint_desc   	    as 'desc',
+						file_location  		    as 'location'
+					FROM blueprint
+					INNER JOIN blueprint_files
+						ON blueprint.blueprint_id = blueprint_files.blueprint_id 
+					JOIN user 
+   						ON user.user_id  = blueprint.user_id
+					WHERE file_location LIKE '%.png' 
+					ORDER BY bid DESC");*/
+			//$data->execute(array(':start' => $start, ':max' => $stop));// 
+			//$data->bindParam(':start', intval(trim($start)), PDO::PARAM_INT);
+			//$data->bindParam(':stop', intval(trim($stop)), PDO::PARAM_INT);
+						//$data = $data->fetch(PDO::FETCH_ASSOC); 
 		function listPrints($start,$stop) {
 			$start = mysql_real_escape_string($start);
 			$stop = mysql_real_escape_string($stop);
+			
+			$this->db->setAttribute( PDO::ATTR_EMULATE_PREPARES, false );
 			//$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			//$this->db->setAttribute( PDO::ATTR_EMULATE_PREPARES, false );
+			/*	Join statement for returning all */
 			$data = $this->db->prepare("SELECT 
 						blueprint.blueprint_id  as 'bid',
 						user.user_id 			as 'uid',
@@ -31,19 +50,14 @@
 						ON blueprint.blueprint_id = blueprint_files.blueprint_id 
 					JOIN user 
    						ON user.user_id  = blueprint.user_id
-					WHERE file_location LIKE '%.png' 
-					ORDER BY bid DESC");
-			//$data->bindValue(':start', intval(trim($start)), PDO::PARAM_INT);
-			//$data->bindValue(':max',intval(trim($stop)), PDO::PARAM_INT);
-			//$data->execute(array(':start' => $start, ':max' => $stop));// 
+					ORDER BY bid ASC
+					LIMIT :start, :stop");
 			$data->bindValue(1, intval(trim($start)), PDO::PARAM_INT);
 			$data->bindValue(2, intval(trim($stop)), PDO::PARAM_INT);
 			$data->execute() or die(print_r($data->errorInfo()));
-
-			//$data = $data->fetch(PDO::FETCH_ASSOC); 
-					/*	Join statement for returning all */
 			if($data->rowCount() > 0){
-				$data = $data->fetch(PDO::FETCH_ASSOC); 
+				//$data = $data->fetch(PDO::FETCH_ASSOC); 
+				$data = $data->fetchAll();
 				return $data; 
 			} else { 
 				echo "failire";

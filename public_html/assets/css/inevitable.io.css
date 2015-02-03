@@ -110,3 +110,40 @@ nav {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
+
+.col-xs-4{
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+@media (min-width: 768px) {
+.col-xs-4 {
+        width: 20%;
+        float: left;
+    }
+}
+
+ .btn-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+/* This is copied from https://github.com/blueimp/jQuery-File-Upload/blob/master/css/jquery.fileupload.css */
+ .fileinput-button {
+    position: relative;
+    overflow: hidden;
+}
+/*Also*/
+ .fileinput-button input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    -ms-filter:'alpha(opacity=0)';
+    font-size: 200px;
+    direction: ltr;
+    cursor: pointer;
+}

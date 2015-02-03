@@ -11,7 +11,7 @@ class Browse extends Controller {
 	}
 	
 	function index() {
-		$this->view->printList = $this->model->listPrints(0,3);
+		$this->view->printList = $this->model->listPrints(0,10);
 		//$this->getPrints(0,3);
 		$this->view->render('browse/index',false,'Browse Blueprints');
 	}
@@ -29,6 +29,8 @@ class Browse extends Controller {
 		$stop = $this->filterThis($start);
 		if(is_numeric($start) && is_numeric($stop) )
 		{
+			//not really sure why, but the limit doesnt work with 
+			// this PDO 
 			return  $this->model->listPrints($start,$stop);
 		} else {
 			

@@ -50,7 +50,7 @@ class Upload extends Controller {
 		// ###### SETTINGS ######
 		$MaxFileSize 			= 5242880; 					// 5.2Mb
 	    $UploadDirectory    	= 'file_upload/uploads/'; 	// ends with / (slash)
-	    $DownloadDirectory		= '/downloads/';
+	    $DownloadDirectory		= 'downloads/';
 	    // ###### SETTINGS ######
 	    
 	    
@@ -105,10 +105,13 @@ class Upload extends Controller {
 		    )) {
 		        throw new RuntimeException('Invalid file format.');
 		    }*/
-			    
+			
+			
+		
 		    $File_Name          = $this->filterThis(strtolower($_FILES['fileupload']['name']));
-		    $File_Ext           = substr($File_Name, strrpos($File_Name, '.')); //get file extention
-		    $Random_Number      = rand(0, 9999999999); //Random number to be added to name.
+		    $File_Ext           = end((explode(".", $File_Name))); //get file extention
+		    //$File_Ext           = substr($File_Name, strrpos($File_Name, '.')); //get file extention
+		    $Random_Number      = rand(0, 9999); //Random number to be added to name.
 		    $UploadDest			= AWR .$UploadDirectory.$Random_Number.$File_Ext;
 		    if (file_exists($UploadDirectory. $_FILES['fileupload']['name'])) {
       			echo   " already exists. ";
@@ -132,13 +135,35 @@ class Upload extends Controller {
     			//[BlueprintID][FileID].png
     			// holy shit
     			
-    			$grandfilename = $DownloadDirectory.$this->hashbrown($userID.$blueprintID).".".$File_Ext;
-    			// writes file location into the database
-    			$returnedID = $this->model->insertFile($blueprintID,$grandfilename);
-    			
-    			if(!isset($returnedID) && $returnedID >0){
-    					$this->view->render('browse/index');
+    			//filename extention should all ready be in lower case by now
+    			/*if($File_Ext  == "jpg" || "gif" || "bmp")
+    			{
+    				//convert the iamge to a png if its jpg
+    				$imageObject = imagecreatefromjpeg($UploadDest);
+					//imagegif($imageObject, $imageFile . '.gif');
+					
+    				$UploadDest			= AWR .$UploadDirectory.$Random_Number. '.png';
+    				$File_Ext = 'png';
+					imagepng($imageObject, $UploadDest);
+					
+					//imagewbmp($imageObject, $imageFile . '.bmp');
+    				
     			}
+    			
+    			if($File_Ext  == "csv"){
+    				//generate an image with the CSV i guess?
+    			}*/
+
+				
+				// moves the file, renames it for download folder
+				$grandfilename = $this->hashbrown($userID.$blueprintID).".".$File_Ext;
+				rename($UploadDest, AWR .$DownloadDirectory.$grandfilename);
+    			// writes file location into the database
+				$returnedID = $this->model->insertFile($blueprintID,$grandfilename);
+    			
+    			//if(!isset($returnedID) && $returnedID >0){
+    				header('Location: '.URL."browse/");
+    			//}
     			
       		}
 		} catch (RuntimeException $e) {  echo $e->getMessage();}

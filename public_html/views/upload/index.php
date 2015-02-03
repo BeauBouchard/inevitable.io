@@ -13,15 +13,20 @@
         <div class="row fileupload-buttonbar">
             <div class="col-lg-7">
                 <!-- The fileinput-button span is used to style the file input field as button -->
-                 <!--<span class="btn btn-success fileinput-button">-->
-                    <i class="icon fa fa-plus fa-lg"></i>
-                    <span>Add files...</span>
+                <span class="btn btn-success fileinput-button">
+                	<i class="icon fa fa-plus fa-lg"></i>
+               		<span>Add files...</span>
                     <input type="file" name="fileupload" />
                 </span>
                 <button type="submit" class="btn btn-primary start">
                     <i class="icon fa fa-cloud-upload fa-lg"></i>
                     <span>Start upload</span>
                 </button>
+                
+                <?php 
+                
+                /*
+                 *
                 <button type="reset" class="btn btn-warning cancel">
                     <i class="icon fa fa-ban fa-lg"></i>
                     <span>Cancel upload</span>
@@ -30,7 +35,10 @@
                     <i class="icon fa fa-trash fa-lg"></i>
                     <span>Delete</span>
                 </button>
-                <input type="checkbox" class="toggle">
+                 * 
+                 */
+                ?>
+
                 <!-- The global file processing state -->
                 <span class="fileupload-process"></span>
             </div>
