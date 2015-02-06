@@ -50,6 +50,7 @@
 						ON blueprint.blueprint_id = blueprint_files.blueprint_id 
 					JOIN user 
    						ON user.user_id  = blueprint.user_id
+   					WHERE file_location LIKE '%.png'
 					ORDER BY bid ASC
 					LIMIT :start, :stop");
 			$data->bindValue(1, intval(trim($start)), PDO::PARAM_INT);

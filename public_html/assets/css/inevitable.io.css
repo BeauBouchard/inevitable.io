@@ -37,6 +37,12 @@ nav {
 
 }
 
+#fileupload {
+	max-width: 500px;
+	padding: 15px;
+	margin: 0 auto;
+}
+
 .navbar-header a{
 	margin-top:20px;
     outline:none;
@@ -72,7 +78,6 @@ nav {
 
 
 .login-page {
-
 	padding-bottom: 40px;
 }
 
@@ -92,8 +97,8 @@ nav {
 	position: relative;
 	height: auto;
 	-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-			box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 	padding: 10px;
 	font-size: 16px;
 }
@@ -114,8 +119,7 @@ nav {
 .col-xs-4{
     position: relative;
     min-height: 1px;
-    padding-right: 10px;
-    padding-left: 10px;
+    padding: 10px;
 }
 
 @media (min-width: 768px) {
@@ -130,12 +134,12 @@ nav {
     background-color: #5cb85c;
     border-color: #4cae4c;
 }
-/* This is copied from https://github.com/blueimp/jQuery-File-Upload/blob/master/css/jquery.fileupload.css */
+
  .fileinput-button {
     position: relative;
     overflow: hidden;
 }
-/*Also*/
+
  .fileinput-button input {
     position: absolute;
     top: 0;

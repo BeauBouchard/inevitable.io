@@ -1,6 +1,6 @@
 <?php 
  /*
-  * Controller page for About page.
+  * Controller page for Browse page.
   */
 
 class Browse extends Controller {

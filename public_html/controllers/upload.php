@@ -157,6 +157,8 @@ class Upload extends Controller {
 				
 				// moves the file, renames it for download folder
 				$grandfilename = $this->hashbrown($userID.$blueprintID).".".$File_Ext;
+				
+				
 				rename($UploadDest, AWR .$DownloadDirectory.$grandfilename);
     			// writes file location into the database
 				$returnedID = $this->model->insertFile($blueprintID,$grandfilename);
@@ -172,6 +174,64 @@ class Upload extends Controller {
 	
 	public function renameFile(){
 		
+	}
+	
+	
+	
+	/* 
+	 * createImage($filename='', $delimiter=',', $title = "inevitable.io")
+	 * @Param $filename		where the CSV file is located in the upload directory
+	 * @Param $delimiter	field delimiter, the specific boundary partioning the data 
+	 * @Param $title		title name of the blueprint, will be put on image
+	 */
+	
+	public function createImage($filename='', $delimiter=',', $title = "Null") {
+		//will get a CSV file
+		//parse empty space as darkcells
+		// ,d, will be a dug out cell
+		// auotmatically have a border and add title to bottom
+		
+
+		//$csv = array_map('str_getcsv',$delimite, file($filename));
+		if(!file_exists($filename) || !is_readable($filename)) {
+			 throw new RuntimeException('File is not uploaded, found or readable');
+		}
+				$Data = str_getcsv($CsvString, "\n"); //parse the rows 
+		foreach($Data as &$Row) $Row = str_getcsv($Row, $delimiter); // parse the data
+		
+		//Render array into image
+		//X = width of CSV, 
+		$x = count($Data); // no joke, it was that easy
+		$y = count($Data[2]);
+		//var_dump(gd_info());
+		
+		//$Data should be  Arrays in arrays full of the data
+		//http://php.net/str_getcsv
+		$gd = imagecreatetruecolor($x, $y)or die('Cannot Initialize new GD image stream'); //$x = width $y = height
+		imagesavealpha($gd, true); 
+		$tcolor = imagecolorallocatealpha($gd, 0, 0, 0, 127);
+		imagefill($gd, 0, 0, $tcolor);//makes background transparent 
+		
+		//Vherid like color scheme (seriously such bad ass colors) 
+		$darkcolor = imagecolorallocate($gd , 48, 43, 47); //302B2F Dark
+		$digcolor = imagecolorallocate($gd , 105, 97, 83); //696153 dug out area
+		$staircolor = imagecolorallocate($gd , 255, 214, 151); //FFD697 stairs
+		$textcolor = imagecolorallocatealpha($gd , 255, 166, 0, 32); // #FFA600 assign a color for the text  
+		
+		//imagesetpixel ( resource $image , int $x , int $y , int $color )
+		//
+		$xcount;
+		foreach($Data as &$row ){
+			foreach( $row as &$event ){
+				if($event == 'd') {
+					imagesetpixel($gd,$x, $y, $digcolor );
+				}
+			}
+		}
+
+		imagestring($gd, 1, 5, 5,  $title, $textcolor); // sets the title to the upper left of the image, assign color
+		imagepng($gd); // makes the image
+		//imagedestroy($gd);
 	}
 
 
